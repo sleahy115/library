@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
+        <title>Edit Course</title>
+    </head>
+    <body>
+        <h2>Edit
+            {{course.getName}}</h2>
+
+        <form action="/course_editor/{{course.getId}}" method="post">
+            <input name="_method" type="hidden" value="patch">
+
+            <label for="name">Edit Course Name</label>
+            <input type="text" name="name" value="{{course.getName}}"><br>
+
+            <label for="course_number">Edit Course Number</label>
+            <input type="text" name="course_number" value="{{course.getCourseNumber}}"><br>
+
+            <button type="submit" name="button">Update</button>
+
+        </form>
+        <form action="/add_student_to_course/{{course.getId}}" method="post">
+            <select name="students">
+                {% for student in all_students %}
+                    <option value="{{student.getId}}">{{student.getFullName}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" name="button">Add student</button>
+        </form>
+        <h3>Class Roster</h3>
+        {% for studentw in students_in_class %}
+            <li>{{studentw.getFullName}}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/courses">
+        <button type="button" class="btn" name="button">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Back
+        </button>
+    </a>
+</body>
+</html>
