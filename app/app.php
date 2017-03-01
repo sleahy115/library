@@ -45,8 +45,7 @@ $app->post("/book_list", function() use ($app) {
     $new_book->save();
     return $app['twig']->render('book_list.html.twig',
     array(
-        'books'=>Book::getAll(),
-        'patrons_by_book' => $book->getPatrons())
+        'books'=>Book::getAll())
     );
 });
 
@@ -60,7 +59,7 @@ $app->get("/delete", function() use ($app) {
 });
 
 $app->get("/book/{id}", function($id) use ($app) {
-    $book =Book::find($id);
+    $book = Book::find($id);
     return $app['twig']->render('book_details.html.twig',
     array(
         'book'=>$book,
@@ -77,8 +76,7 @@ $app->post("/add_patron_to_book/{id}", function($id) use ($app) {
     'book_list.html.twig',
     array(
         'book' => $book,
-        'patrons_by_book' => $book->getPatrons(), 'books'=>Book::getAll(),
-        'patrons_by_book' => $book->getPatrons())
+        'patrons_by_book' => $book->getPatrons(), 'books'=>Book::getAll())
     );
 
 });
@@ -91,15 +89,10 @@ $app->get("/patron_list", function() use ($app) {
 });
 $app->delete("/delete_patron/{id}", function($id) use ($app) {
     $patron = Patron::find($id);
+    $book = Book::find($id);
     $patron->delete();
-    return $app['twig']->render('book_list.html.twig',
-    array(
-        'books'=> Book::getAll(),
-        'patrons'=>Patron::getAll(),
-        'patrons_by_book' => $book->getPatrons())
-    );
+    return $app->redirect("/book_list");
 });
-
 
 $app->post("/patron_list", function() use ($app) {
     $new_patron = new Patron($_POST['name']);
@@ -123,12 +116,28 @@ $app->get("/patron/{id}", function($id) use ($app) {
     return $app['twig']->render('patron_details.html.twig',
     array(
         'patron'=>$patron,
-        'patrons' => Patron::getAll())
+        'patrons' => Patron::getAll(),
+        'books' => Book::getAll())
     );
 });
 
+$app->post("/add_book_to_patron/{id}", function($id) use ($app) {
+    $patron = Patron::find($id);
+    $book_id = $_POST['book_id'];
+    $book = Book::find($book_id);
+    $patron->addBook($book);
+    $books = Book::getAll();
+    var_dump($books);
+    return $app['twig']->render(
+    'patron_details.html.twig',
+    array(
+        'patron' => $patron,
+        'books_by_patron' => $patron->getBooks(),
+        'books'=>$books)
+    );
 
 
+});
 
 return $app;
 ?>

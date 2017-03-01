@@ -7,8 +7,8 @@
         {% for book in books %}
             <a href="/book/{{book.getId}}">
                 <li>{{book.getTitle}}</li></a>
-                <li>checked out to</li>
-                    {% if patrons_by_book is defined %}
+                {% if (patrons_by_book is defined) and (patrons_by_book is not empty) %}
+                    <li>checked out to</li>
                         {% for patron in patrons_by_book %}
 
                             <li>{{patron.getName}}</li>
@@ -33,5 +33,6 @@
         <button type="submit">Submit</button>
     </form>
     <a href="/delete"><button>delete all</button></a>
+    <a href="/"><button>home</button></a>
 </div>
 {% endblock %}

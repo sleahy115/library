@@ -80,7 +80,7 @@
             $GLOBALS['DB']->exec("INSERT INTO books_patrons (book_id, patron_id) VALUES ({$book_id}, {$patron_id});");
         }
 
-        function getBook()
+        function getBooks()
         {
             $returned_books = $GLOBALS['DB']->query(
                 "SELECT books.*
