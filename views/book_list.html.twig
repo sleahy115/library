@@ -1,0 +1,25 @@
+{% extends "index.html.twig" %}
+
+{% block body %}
+
+<div class="container">
+    {% if books is not empty %}
+    {% for book in books %}
+    <li></li>
+    {% endfor %}
+    {% endif %}
+
+    <form  action="/book_list" method="post">
+        <label for="title">Enter book name</label>
+        <input type="text" name="title">
+        <label for="due_date">Enter due date</label>
+        <input type="date" name="due_date">
+        <label for="checkout_date">Enter checkout date</label>
+        <input type="date" name="checkout_date">
+        <label for="author">Enter author name</label>
+        <input type="text" name="author">
+
+    </form>
+</div>
+
+{% endblock %}
