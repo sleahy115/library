@@ -11,9 +11,9 @@
     </p>
     {% if patrons is not empty %}
     <h1>checkout book</h1>
-    <form action="/book_list" method="post">
-        <select name="patron_name">
-            {% for patron in patron %}
+    <form action="/add_patron_to_book/{{book.getId}}" method="post">
+        <select name="patron_id">
+            {% for patron in patrons %}
             <option value="{{patron.getId}}">{{patron.getName}}</option>
             {% endfor %}
         </select>

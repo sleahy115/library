@@ -22,7 +22,9 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 $app->get("/", function() use ($app) {
-    return $app['twig']->render('index.html.twig');
+    return $app['twig']->render(
+    'index.html.twig'
+    );
 });
 
 $app->get("/book_list", function() use ($app) {
@@ -31,36 +33,98 @@ $app->get("/book_list", function() use ($app) {
     // }else {
     //     $books = Book::getAll();
     // }
-    return $app['twig']->render('book_list.html.twig', array('books'=>Book::getAll()));
+    return $app['twig']->render(
+    'book_list.html.twig',
+    array(
+        'books'=>Book::getAll())
+    );
 });
+
 $app->post("/book_list", function() use ($app) {
     $new_book = new Book($_POST['title'],$_POST['due_date'], $_POST['checkout_date'], $_POST['author']);
     $new_book->save();
-    return $app['twig']->render('book_list.html.twig', array('books'=>Book::getAll()));
+    return $app['twig']->render('book_list.html.twig',
+    array(
+        'books'=>Book::getAll(),
+        'patrons_by_book' => $book->getPatrons())
+    );
 });
+
 $app->get("/delete", function() use ($app) {
     Book::deleteAll();
-    return $app['twig']->render('index.html.twig', array('books'=>Book::getAll()));
+    return $app['twig']->render(
+    'index.html.twig',
+    array(
+        'books'=>Book::getAll())
+    );
 });
+
 $app->get("/book/{id}", function($id) use ($app) {
     $book =Book::find($id);
-    return $app['twig']->render('book_details.html.twig', array('book'=>$book, 'patrons' => Patron::getAll()));
+    return $app['twig']->render('book_details.html.twig',
+    array(
+        'book'=>$book,
+        'patrons' => Patron::getAll())
+    );
 });
+
+$app->post("/add_patron_to_book/{id}", function($id) use ($app) {
+    $book = Book::find($id);
+    $patron_id = $_POST['patron_id'];
+    $patron = Patron::find($patron_id);
+    $book->addPatron($patron);
+    return $app['twig']->render(
+    'book_list.html.twig',
+    array(
+        'book' => $book,
+        'patrons_by_book' => $book->getPatrons(), 'books'=>Book::getAll(),
+        'patrons_by_book' => $book->getPatrons())
+    );
+
+});
+
 $app->get("/patron_list", function() use ($app) {
-    return $app['twig']->render('patron_list.html.twig', array('patrons'=>Patron::getAll()));
+    return $app['twig']->render('patron_list.html.twig',
+    array(
+        'patrons'=>Patron::getAll())
+    );
 });
+$app->delete("/delete_patron/{id}", function($id) use ($app) {
+    $patron = Patron::find($id);
+    $patron->delete();
+    return $app['twig']->render('book_list.html.twig',
+    array(
+        'books'=> Book::getAll(),
+        'patrons'=>Patron::getAll(),
+        'patrons_by_book' => $book->getPatrons())
+    );
+});
+
+
 $app->post("/patron_list", function() use ($app) {
     $new_patron = new Patron($_POST['name']);
     $new_patron->save();
-    return $app['twig']->render('patron_list.html.twig', array('patrons'=>Patron::getAll()));
+    return $app['twig']->render('patron_list.html.twig',
+    array(
+        'patrons'=>Patron::getAll())
+    );
 });
+
 $app->get("/delete/patron", function() use ($app) {
     Patron::deleteAll();
-    return $app['twig']->render('index.html.twig', array('patrons'=>Patron::getAll()));
+    return $app['twig']->render('index.html.twig',
+    array(
+        'patrons'=>Patron::getAll())
+    );
 });
+
 $app->get("/patron/{id}", function($id) use ($app) {
-    $patron =Patron::find($id);
-    return $app['twig']->render('patron_details.html.twig', array('patron'=>$patron, 'patrons' => Patron::getAll()));
+    $patron = Patron::find($id);
+    return $app['twig']->render('patron_details.html.twig',
+    array(
+        'patron'=>$patron,
+        'patrons' => Patron::getAll())
+    );
 });
 
 
