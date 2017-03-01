@@ -1,0 +1,20 @@
+{% extends "index.html.twig" %}
+
+{% block body %}
+
+<div class="container">
+    {% if patrons is not empty %}
+    {% for patron in patrons %}
+    <a href="/patron/{{patron.getId}}"><li>{{patron.getName}}</li></a>
+    {% endfor %}
+    {% endif %}
+
+    <form  action="/patron_list" method="post">
+        <label for="name">Enter patron name</label>
+        <input type="text" name="name">
+        <button type="submit">Submit</button>
+    </form>
+    <a href="/delete/patron"><button>delete all</button></a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "index.html.twig" %}
+
+{% block body %}
+
+<div class="container">
+    <h1>{{book.getTitle}}</h1>
+    <p>
+        {{book.getAuthor}}
+        {{book.getCheckoutDate}}
+        {{book.getDueDate}}
+    </p>
+    {% if patrons is not empty %}
+    <h1>checkout book</h1>
+    <form action="/book_list" method="post">
+        <select name="patron_name">
+            {% for patron in patron %}
+            <option value="{{patron.getId}}">{{patron.getName}}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Checkout</button>
+    </form>
+    {% endif %}
+</div>
+
+{% endblock %}

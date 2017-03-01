@@ -5,7 +5,7 @@
 <div class="container">
     {% if books is not empty %}
     {% for book in books %}
-    <li></li>
+    <a href="/book/{{book.getId}}"><li>{{book.getTitle}}</li></a>
     {% endfor %}
     {% endif %}
 
@@ -18,8 +18,9 @@
         <input type="date" name="checkout_date">
         <label for="author">Enter author name</label>
         <input type="text" name="author">
-
+        <button type="submit">Submit</button>
     </form>
+    <a href="/delete"><button>delete all</button></a>
 </div>
 
 {% endblock %}
