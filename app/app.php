@@ -144,6 +144,17 @@ $app->get("/patron/{id}", function($id) use ($app) {
     );
 });
 
+$app->patch("/update_patron/{id}", function($id) use ($app) {
+    $patron = Patron::find($id);
+    $patron->updateName($_POST['new_name']);
+    return $app['twig']->render('patron_details.html.twig',
+    array(
+        'patron'=>$patron,
+        'patrons' => Patron::getAll(),
+        'books' => Book::getAll())
+    );
+});
+
 $app->post("/add_book_to_patron/{id}", function($id) use ($app) {
     $patron = Patron::find($id);
     $book_id = $_POST['book_id'];
