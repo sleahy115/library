@@ -118,7 +118,7 @@
 
             $test_patron->addBook($new_book);
 
-            $result = $test_patron->getBook();
+            $result = $test_patron->getBooks();
 
             $this->assertEquals([$new_book], $result);
         }

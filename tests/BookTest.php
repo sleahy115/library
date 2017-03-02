@@ -170,5 +170,26 @@
 
             $this->assertEquals([$new_patron], $result);
         }
+        function test_checkIn()
+        {
+            $name = 'Foo';
+            $new_patron = new Patron($name);
+            $new_patron->save();
+
+            $title = 'Eumeswil';
+            $due_date = '0000-00-00';
+            $checkout_date = '0000-00-00';
+            $author = 'Ernst Junger';
+            $new_book = new Book($title, $checkout_date, $due_date, $author);
+            $new_book->save();
+
+            $new_patron->addBook($new_book);
+            $new_book->checkIn($new_patron);
+
+            $result = $new_book->getpatrons();
+            var_dump($result);
+
+            $this->assertEquals([], $result);
+        }
     }
 ?>

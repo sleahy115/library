@@ -100,7 +100,7 @@
 
         function update($due_date, $checkout_date)
         {
-            $GLOBALS['DB']->exec("UPDATE books SET due_date = '{$due_date}', SET checkout_date = '{$checkout_date}' WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("UPDATE books SET due_date = '{$due_date}', checkout_date = '{$checkout_date}' WHERE id = {$this->getId()};");
             $this->setDueDate($due_date);
             $this->setCheckoutDate($checkout_date);
         }
@@ -146,6 +146,20 @@
                 array_push($patrons, $new_patron);
             }
             return $patrons;
+        }
+
+        function checkIn($patron)
+        {
+            $patron_id = $patron->getId();
+            $book_id = $this->getId();
+
+            $GLOBALS['DB']->exec(
+            "UPDATE books_patrons
+                SET patron_id = NULL,
+                    book_id = NULL
+                    WHERE book_id = {$book_id};"
+            );
+
         }
 
     }

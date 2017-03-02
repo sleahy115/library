@@ -34,7 +34,7 @@ $app->get("/book_list", function() use ($app) {
     //     $books = Book::getAll();
     // }
     return $app['twig']->render(
-    'book_list.html.twig',
+    '/book_list.html.twig',
     array(
         'books'=>Book::getAll())
     );
@@ -103,12 +103,20 @@ $app->post("/patron_list", function() use ($app) {
     );
 });
 
-$app->get("/delete/patron", function() use ($app) {
-    Patron::deleteAll();
-    return $app['twig']->render('index.html.twig',
-    array(
-        'patrons'=>Patron::getAll())
-    );
+// $app->get("/delete/patron", function() use ($app) {
+//     Patron::deleteAll();
+//     return $app['twig']->render('index.html.twig',
+//     array(
+//         'patrons'=>Patron::getAll())
+//     );
+// });
+
+$app->patch("/check_in/{id}", function($id) use ($app) {
+    $book = Book::find($id);
+    $patron = Patron::find($id);
+    $book->checkIn($patron);
+    var_dump($book);
+    return $app->redirect("/book_list");
 });
 
 $app->get("/patron/{id}", function($id) use ($app) {
@@ -150,6 +158,7 @@ $app->patch("/update_book/{id}", function($id) use ($app) {
 
     return $app->redirect("/book/".$id);
 });
+
 
 
 return $app;
