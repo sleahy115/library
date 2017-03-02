@@ -8,17 +8,15 @@
             <a href="/book/{{book.getId}}">
                 <li>{{book.getTitle}}</li></a>
                 {% if (patrons_by_book is defined) and (patrons_by_book is not empty) %}
-                    {% if patron is not defined %}
                     <li>checked out to</li>
                         {% for patron in patrons_by_book %}
 
                             <li>{{patron.getName}}</li>
-                            <form class="" action="/check_in/{{patron.getId}}" method="post">
-                                <input name="_method" type="hidden" value="patch">
+                            <form class="" action="/check_in/{{book.getId}}" method="post">
+                                <input name="_method" type="hidden" value="delete">
                                 <button type="submit" name="button">Check in</button>
                             </form>
                             {% endfor %}
-                            {% endif %}
                     {% endif %}
         {% endfor %}
     {% endif %}

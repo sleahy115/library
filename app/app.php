@@ -111,12 +111,17 @@ $app->post("/patron_list", function() use ($app) {
 //     );
 // });
 
-$app->patch("/check_in/{id}", function($id) use ($app) {
+$app->delete("/check_in/{id}", function($id) use ($app) {
     $book = Book::find($id);
-    $patron = Patron::find($id);
-    $book->checkIn($patron);
+    // $patron = Patron::find($id);
+    $book->checkIn();
     var_dump($book);
-    return $app->redirect("/book_list");
+    return $app['twig']->render(
+    'book_list.html.twig',
+    array(
+        'book' => $book,
+        'patrons_by_book' => $book->getPatrons(), 'books'=>Book::getAll())
+    );
 });
 
 $app->get("/patron/{id}", function($id) use ($app) {

@@ -148,16 +148,12 @@
             return $patrons;
         }
 
-        function checkIn($patron)
+        function checkIn()
         {
-            $patron_id = $patron->getId();
             $book_id = $this->getId();
 
             $GLOBALS['DB']->exec(
-            "UPDATE books_patrons
-                SET patron_id = NULL,
-                    book_id = NULL
-                    WHERE book_id = {$book_id};"
+            "DELETE FROM books_patrons WHERE book_id = {$book_id};"
             );
 
         }

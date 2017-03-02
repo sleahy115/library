@@ -184,7 +184,7 @@
             $new_book->save();
 
             $new_patron->addBook($new_book);
-            $new_book->checkIn($new_patron);
+            $new_book->checkIn();
 
             $result = $new_book->getpatrons();
             var_dump($result);
