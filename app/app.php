@@ -127,16 +127,21 @@ $app->post("/add_book_to_patron/{id}", function($id) use ($app) {
     $book = Book::find($book_id);
     $patron->addBook($book);
     $books = Book::getAll();
-    var_dump($books);
     return $app['twig']->render(
-    'patron_details.html.twig',
+    'patron_list.html.twig',
     array(
         'patron' => $patron,
+        'patrons' => Patron::getAll(),
         'books_by_patron' => $patron->getBooks(),
         'books'=>$books)
     );
+});
 
-
+$app->delete("/delete_book/{id}", function($id) use ($app) {
+    $book = Book::find($id);
+    $patron = Patron::find($id);
+    $book->delete();
+    return $app->redirect("/patron_list");
 });
 
 return $app;

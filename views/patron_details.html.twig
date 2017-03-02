@@ -5,7 +5,7 @@
 <div class="container">
     <h1>{{patron.getName}}</h1>
 
-    {% if patrons is not empty %}
+    {% if patron is not empty %}
     <h1>checkout book</h1>
     <form action="/add_book_to_patron/{{patron.getId}}" method="post">
         <select name="book_id">
