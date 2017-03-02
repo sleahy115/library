@@ -134,7 +134,6 @@
                 JOIN patrons ON (patrons.id = books_patrons.patron_id)
                 WHERE books.id = {$this->getId()};"
             );
-            // var_dump($returned_students);
             $patrons = array();
             if ($returned_patrons == null) {
                 return null;

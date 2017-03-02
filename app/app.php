@@ -60,10 +60,16 @@ $app->get("/delete", function() use ($app) {
 
 $app->get("/book/{id}", function($id) use ($app) {
     $book = Book::find($id);
+    if ($book->getPatrons() != array()){
+        $patron = $book->getPatrons();
+        $patron_name = $patron[0];
+    }
     return $app['twig']->render('book_details.html.twig',
     array(
         'book'=>$book,
-        'patrons' => Patron::getAll())
+        'patrons' => Patron::getAll(),
+        'patron' => $patron,
+        'patron_name' =>$patron_name->getName())
     );
 });
 
