@@ -157,5 +157,25 @@
 
         }
 
+        static function search($author)
+        {
+            $books_by_author = $GLOBALS['DB']->query("SELECT * FROM books WHERE author = '{$author}';");
+            $books = array();
+            if ($books_by_author == null) {
+                return null;
+            }
+                foreach ($books_by_author as $book) {
+                $id = $book['id'];
+                $title = $book['title'];
+                $checkout_date = $book['checkout_date'];
+                $due_date = $book['due_date'];
+                $author = $book['author'];
+                $new_book = new Book($title, $checkout_date, $due_date, $author, $id);
+                array_push($books, $new_book);
+
+            }
+            return $books;
+        }
+
     }
 ?>

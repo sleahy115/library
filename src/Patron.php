@@ -102,6 +102,15 @@
             }
             return $books;
         }
+        function checkIn()
+        {
+            $book_id = $this->getId();
+
+            $GLOBALS['DB']->exec(
+            "DELETE FROM books_patrons WHERE book_id = {$book_id};"
+            );
+
+        }
 }
 
 ?>

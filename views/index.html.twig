@@ -12,8 +12,13 @@
                     <button>View all books</button>
                 </a>
                 <a href="/patron_list"><button>View all patrons</button></a>
-                <!-- <a href="/book_form"><button>Enter new books</button></a>
-        <a href="/patron_form"><button>Enter new patron</button></a> -->
+
+                <h2>search by author</h2>
+                <form  action="/author_search" method="post">
+                    <label for="author_name">Enter author name</label>
+                    <input type="test" name="author_name">
+                    <button type="submit">search</button>
+                </form>
             {% endblock %}
         </div>
     </body>

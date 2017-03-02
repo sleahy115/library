@@ -9,9 +9,9 @@
             {% if books_by_patron is defined and books_by_patron is not empty %}
             {% for book in books_by_patron %}
             <li>{{book.getTitle}}</li>
-                <form action="/delete_book/{{book.getId}}" method="post">
+                <form action="/check_in/patron/{{book.getId}}" method="post">
                     <input name="_method" type="hidden" value="delete">
-                    <button type="submit" name="button">Delete</button>
+                    <button type="submit" name="button">Check in</button>
                 </form>
             {% endfor %}
             {% endif %}

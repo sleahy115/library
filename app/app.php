@@ -171,17 +171,34 @@ $app->post("/add_book_to_patron/{id}", function($id) use ($app) {
     );
 });
 
-$app->delete("/delete_book/{id}", function($id) use ($app) {
-    $book = Book::find($id);
+$app->delete("/check_in/patron/{id}", function($id) use ($app) {
+    // $book = Book::find($id);
     $patron = Patron::find($id);
-    $book->delete();
-    return $app->redirect("/patron_list");
+    $patron->checkIn();
+    return $app['twig']->render(
+    'patron_list.html.twig',
+    array(
+        'book' => $book,
+        'books_by_patron' => $patron->getBooks(), 'books'=>Book::getAll(),
+        'patrons' => Patron::getAll()
+        )
+    );
 });
+
 $app->patch("/update_book/{id}", function($id) use ($app) {
     $book = Book::find($id);
     $book->update($_POST['checkout_date'], $_POST['due_date']);
 
     return $app->redirect("/book/".$id);
+});
+
+$app->get("/author_search", function() use ($app) {
+    return $app['twig']->render("author.html.twig");
+});
+
+$app->post("/author_search", function() use ($app) {
+    $author = $_POST['author_name'];
+    return $app['twig']->render("author.html.twig", array( 'books' => Book::search($author), 'author' => $author));
 });
 
 
