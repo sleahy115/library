@@ -143,6 +143,14 @@ $app->delete("/delete_book/{id}", function($id) use ($app) {
     $book->delete();
     return $app->redirect("/patron_list");
 });
+$app->patch("/update_book/{id}", function($id) use ($app) {
+    $book = Book::find($id);
+    var_dump($id);
+    $book->update($_POST['checkout_date'], $_POST['due_date']);
+
+    return $app->redirect("/book/".$id);
+});
+
 
 return $app;
 ?>

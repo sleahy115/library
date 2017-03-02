@@ -6,8 +6,16 @@
     <h1>{{book.getTitle}}</h1>
     <p>
         {{book.getAuthor}}
-        {{book.getCheckoutDate}}
-        {{book.getDueDate}}
+        <form action="/update_book/{{book.getId}}" method="post">
+            <input name="_method" type="hidden" value="patch">
+            <label for="checkout_date">current checkout date {{book.getCheckoutDate}}</label><br>
+            <label for="checkout_date">Enter new checkout date</label><br>
+            <input type="date" name="checkout_date"><br>
+            <label for="checkout_date">current due date {{book.getDueDate}}</label><br>
+            <label for="due_date">Enter new due date</label><br>
+            <input type="date" name="due_date">
+            <button type="submit">update</button>
+        </form>
     </p>
     {% if patrons is not empty %}
     <h1>checkout book</h1>
