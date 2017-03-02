@@ -63,14 +63,19 @@ $app->get("/book/{id}", function($id) use ($app) {
     if ($book->getPatrons() != array()){
         $patron = $book->getPatrons();
         $patron_name = $patron[0];
+        return $app['twig']->render('book_details.html.twig',
+        array(
+            'book'=>$book,
+            'patrons' => Patron::getAll(),
+            'patron' => $patron,
+            'patron_name' =>$patron_name->getName())
+        );
     }
-    return $app['twig']->render('book_details.html.twig',
-    array(
-        'book'=>$book,
-        'patrons' => Patron::getAll(),
-        'patron' => $patron,
-        'patron_name' =>$patron_name->getName())
-    );
+    else {
+        $patron = $book->getPatrons();
+        $patron_name = $patron[0];
+        return $app['twig']->render('book_details.html.twig', array('book' => $book, 'patron' => $patron, 'books' => Book::getAll(),'patrons' => Patron::getAll()));
+    }
 });
 
 $app->post("/add_patron_to_book/{id}", function($id) use ($app) {
@@ -121,7 +126,6 @@ $app->delete("/check_in/{id}", function($id) use ($app) {
     $book = Book::find($id);
     // $patron = Patron::find($id);
     $book->checkIn();
-    var_dump($book);
     return $app['twig']->render(
     'book_list.html.twig',
     array(
@@ -164,7 +168,6 @@ $app->delete("/delete_book/{id}", function($id) use ($app) {
 });
 $app->patch("/update_book/{id}", function($id) use ($app) {
     $book = Book::find($id);
-    var_dump($id);
     $book->update($_POST['checkout_date'], $_POST['due_date']);
 
     return $app->redirect("/book/".$id);

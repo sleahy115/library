@@ -20,8 +20,12 @@
     <h1>checkout book</h1>
     {% if patron is not empty %}
     <p>this book is checked out to {{patron_name}}.</p>
-    {% elseif patron is not empty %}
-    {% if patrons is not empty %}
+    <form class="" action="/check_in/{{book.getId}}" method="post">
+        <input name="_method" type="hidden" value="delete">
+        <button type="submit" name="button">Check in</button>
+    </form>
+    {% endif %}
+    {% if patron is empty and patrons is not empty %}
     <form action="/add_patron_to_book/{{book.getId}}" method="post">
         <select name="patron_id">
             {% for patron in patrons %}
@@ -30,8 +34,6 @@
         </select>
         <button type="submit">Checkout</button>
     </form>
-    
-    {% endif %}
     {% endif %}
     <a href="/"><button>home</button></a>
 </div>
