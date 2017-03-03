@@ -1,0 +1,10 @@
+{% extends "index.html.twig" %}
+
+{% block body %}
+
+<h1>{{patron}}</h1>
+
+{% for book in books %}
+<li>{{book.getTitle}}</li>
+{% endfor %}
+{% endblock %}

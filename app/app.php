@@ -201,6 +201,15 @@ $app->post("/author_search", function() use ($app) {
     return $app['twig']->render("author.html.twig", array( 'books' => Book::search($author), 'author' => $author));
 });
 
+$app->post("/patron_search", function() use ($app) {
+    $patron = $_POST['patron_name'];
+    // var_dump(Patron::search($patron));
+    return $app['twig']->render(
+    "patron.html.twig",
+    array(
+        'books' => Patron::search($patron),
+        'patron' => $patron));
+});
 
 
 return $app;

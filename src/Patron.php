@@ -111,6 +111,46 @@
             );
 
         }
+
+        static function search($patron)
+        {
+            $patron_id = $GLOBALS['DB']->query("SELECT * FROM patrons WHERE name = '{$patron}';");
+            $patron_id = $patron_id->fetchAll(PDO::FETCH_ASSOC)[0];
+            $patron_id = $patron_id['id'];
+
+            $books_by_patron = $GLOBALS['DB']->query("SELECT * FROM books_patrons WHERE patron_id = {$patron_id};");
+            $books_by_patron = $books_by_patron->fetchAll(PDO::FETCH_ASSOC);
+            $ids = array();
+            foreach ($books_by_patron as $book_id) {
+                $id = $book_id['book_id'];
+                array_push($ids, $id);
+            }
+
+
+            foreach ($ids as $id) {
+                var_dump($id);
+                $titles = $GLOBALS['DB']->query("SELECT * FROM books WHERE id = $id;");
+                $titles = $titles->fetchAll(PDO::FETCH_ASSOC);
+                $patrons_books = array();
+                foreach ($titles as $title) {
+                    $id = $title['id'];
+                    $title = $title['title'];
+                    $checkout_date = $title['checkout_date'];
+                    $due_date = $title['due_date'];
+                    $author = $title['author'];
+                    $new_book = new Book($title, $checkout_date, $due_date, $author, $id);
+                    array_push($patrons_books, $new_book);
+                }
+                return $patrons_books;
+            }
+
+
+
+            // if ($books_by_patron == null) {
+            //     return "nothing found";
+            // }
+            // return $books;
+        }
 }
 
 ?>

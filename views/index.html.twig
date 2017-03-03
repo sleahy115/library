@@ -16,7 +16,15 @@
                 <h2>search by author</h2>
                 <form  action="/author_search" method="post">
                     <label for="author_name">Enter author name</label>
-                    <input type="test" name="author_name">
+                    <input type="text" name="author_name">
+                    <button type="submit">search</button>
+                </form>
+
+                <h2>search for  a patrons checked out books</h2>
+                <form  action="/patron_search" method="post">
+                    <!-- <input type="hidden" name="_method" value=""> -->
+                    <label for="patron_name">Enter patron name</label>
+                    <input type="text" name="patron_name">
                     <button type="submit">search</button>
                 </form>
             {% endblock %}
